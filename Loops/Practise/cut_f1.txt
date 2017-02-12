@@ -1,0 +1,5 @@
+Apple is red
+Banana is yellow
+Orange is orange
+Guava is green
+Kiwi is brown

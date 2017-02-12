@@ -1,0 +1,539 @@
+Variables
+1.) User Defined Variables
+$ a=20
+$ echo $a
+20
+$ echo a
+a
+$
+2.) System Variables
+View all system variables
+$ set
+
+Null variable
+$ var=
+$ echo $var
+
+$
+$ var1=""
+$ echo $var1
+
+$
+
+Double quote, Single quote, Back quote
+$ echo "Time is date"
+Time is date
+$ vnum=10
+$ echo "$vnum is a number"
+10 is a number
+$ echo '$vnum is a number'
+$vnum is a number
+$ echo "Time is `date`"
+Time is Sun Jan 22 20:44:18 PST 2017
+$
+
+Exit Status
+$ rm test1.sh
+rm: test1.sh: No such file or directory
+$ echo $?
+1
+$ rm test.sh
+$ echo $?
+0
+$ date
+Sun Jan 22 20:48:30 PST 2017
+$ echo $?
+0
+$
+
+Redirection using > , >> , <
+Example 1:-
+$ ls > myfile
+$ date >> myfile
+$ cat < myfile
+hello.sh
+myfile
+read_input_from_user.sh
+Sun Jan 22 20:59:09 PST 2017
+$
+Example 2:-
+$ cat > fruitnames
+Apple
+Orange
+Mango
+Berry
+Watermelon
+$ sort < fruitnames > sorted_fruitnames
+$ cat sorted_fruitnames
+Apple
+Berry
+Mango
+Orange
+Watermelon
+$
+
+Wild Characters
+$ ls *
+echo_and_read.sh        hello.sh                read_input_from_user.sh
+fruitnames              myfile                  sorted_fruitnames
+$
+$ ls hello.s?
+hello.sh
+$
+$ ls [abc].sh
+zsh: no matches found: [abc].sh
+$
+$ ls [rsh]*
+hello.sh	read_input_from_user.sh		sorted_fruitnames
+$
+
+Pipe
+1.) Print sorted list of users
+$ who | sort
+kan1shka9 console  Jan 22 15:29
+kan1shka9 ttys000  Jan 22 20:06
+$
+2.) Print sorted list of users and output is redirected to file
+$ who | sort > list_of_users
+$ ls list_of_users
+list_of_users
+$
+3.) Print number of users who logon to the system
+$ who | wc -l
+       2
+$
+4.) Print the number of files in the current directory
+$ ls -lah | wc -l
+      10
+$
+5.) Print if a particular user in logged on
+$ who | grep oshi
+$
+
+Run multiple commands in single line
+$ time;whoami
+shell  0.14s user 0.16s system 0% cpu 12:28.81 total
+children  0.39s user 0.38s system 0% cpu 12:28.81 total
+kan1shka9
+$ time;who
+shell  0.14s user 0.16s system 0% cpu 12:34.02 total
+children  0.40s user 0.39s system 0% cpu 12:34.02 total
+kan1shka9 console  Jan 22 15:29
+kan1shka9 ttys000  Jan 22 20:06
+$
+
+bash-3.2$ help test
+test: test [expr]
+    Exits with a status of 0 (true) or 1 (false) depending on
+    the evaluation of EXPR.  Expressions may be unary or binary.  Unary
+    expressions are often used to examine the status of a file.  There
+    are string operators as well, and numeric comparison operators.
+
+    File operators:
+
+        -a FILE        True if file exists.
+        -b FILE        True if file is block special.
+        -c FILE        True if file is character special.
+        -d FILE        True if file is a directory.
+        -e FILE        True if file exists.
+        -f FILE        True if file exists and is a regular file.
+        -g FILE        True if file is set-group-id.
+        -h FILE        True if file is a symbolic link.
+        -L FILE        True if file is a symbolic link.
+        -k FILE        True if file has its `sticky' bit set.
+        -p FILE        True if file is a named pipe.
+        -r FILE        True if file is readable by you.
+        -s FILE        True if file exists and is not empty.
+        -S FILE        True if file is a socket.
+        -t FD          True if FD is opened on a terminal.
+        -u FILE        True if the file is set-user-id.
+        -w FILE        True if the file is writable by you.
+        -x FILE        True if the file is executable by you.
+        -O FILE        True if the file is effectively owned by you.
+        -G FILE        True if the file is effectively owned by your group.
+        -N FILE        True if the file has been modified since it was last read.
+
+      FILE1 -nt FILE2  True if file1 is newer than file2 (according to
+                       modification date).
+
+      FILE1 -ot FILE2  True if file1 is older than file2.
+
+      FILE1 -ef FILE2  True if file1 is a hard link to file2.
+
+    String operators:
+
+        -z STRING      True if string is empty.
+
+        -n STRING
+        STRING         True if string is not empty.
+
+        STRING1 = STRING2
+                       True if the strings are equal.
+        STRING1 != STRING2
+                       True if the strings are not equal.
+        STRING1 < STRING2
+                       True if STRING1 sorts before STRING2 lexicographically.
+        STRING1 > STRING2
+                       True if STRING1 sorts after STRING2 lexicographically.
+
+    Other operators:
+
+        -o OPTION      True if the shell option OPTION is enabled.
+        ! EXPR         True if expr is false.
+        EXPR1 -a EXPR2 True if both expr1 AND expr2 are true.
+        EXPR1 -o EXPR2 True if either expr1 OR expr2 is true.
+
+        arg1 OP arg2   Arithmetic tests.  OP is one of -eq, -ne,
+                       -lt, -le, -gt, or -ge.
+
+    Arithmetic binary operators return true if ARG1 is equal, not-equal,
+    less-than, less-than-or-equal, greater-than, or greater-than-or-equal
+    than ARG2.
+bash-3.2$
+
+Expression Command
+$ echo $cnt
+0
+$ cnt=`expr $cnt + 1`
+$ echo $cnt
+1
+$ expr 1 + 2 + 3
+6
+$ expr 8 \* 9
+72
+$ expr 8 % 5
+3
+$
+$ expr 2 \< 3
+1
+$ expr 5 \<= 5
+1
+$ expr 3 \> 8
+0
+$ expr 3 \>= 8
+0
+$ expr 9 = 9
+1
+$ expr 9 != 81
+1
+$ expr 0 \| 7
+7
+$ expr 2 \& 7
+2
+$ expr 0 \& 4
+0
+$ expr 2 \| 7
+2
+$
+
+String Comparison
+string1 = string2 -> Check if strings are equal
+string1 != string2 -> Check if strings are not equal
+string1 -> string1 is not null or not defined
+-n string1 -> string1 is NOT NULL and does exist
+-z string1 -> string1 is NULL and does exist
+
+Lists files in the order of file creation
+$ ls -lrt
+
+Gives the total count of the number of files on the system
+$ ls / -R | wc -l
+
+Move the above command to background
+$ ls / -R | wc -l&
+
+List current running processes
+$ ps
+
+Get detailed info about running processes
+$ ps a
+
+Display the owner of the process along with the process
+$ ps aux
+
+Kill the specifies process by providing process id
+$ kill {pid}
+
+To stop process by name
+$ killall {Process-name}
+$ killall httpd
+
+To stop all processes except shell
+$ kill 0
+
+To see current running processes and other info like memory ans cpu usage
+$ top
+
+Command to delete old files
+$ ls -t | sed -e '1,5d' | xargs rm
+
+CPU Usage of the user
+$ top -b -n1 | grep "CPUs" | awk '{print $3}'
+
+Discard output of the program 
+$ ls -la > /dev/null
+
+Logical Operator
+$ cd Functions && ls -lah
+$ [ -d or_dir ] || mkdir or_dir
+$ [ -f or_file ] || cat > or_file < mytest.txt
+
+Cut
+$ cut -d ':' -f1 /etc/passwd
+$ cut -c4 myfile.txt
+x
+u
+l
+$ cut -c4,6 myfile.txt
+xo
+ui
+ln
+$
+$ cat cut_f1.txt
+Apple is red
+Banana is yellow
+Orange is orange
+Guava is green
+Kiwi is brown
+$ cut -c2 cut_f1.txt
+p
+a
+r
+u
+i
+$ cut -c2,5 cut_f1.txt
+pe
+an
+rg
+ua
+i
+$ cut -c2-5 cut_f1.txt
+pple
+anan
+rang
+uava
+iwi
+$
+$ cut -d ' ' -f1 cut_f1.txt
+Apple
+Banana
+Orange
+Guava
+Kiwi
+$ cut -d ' ' -f3 cut_f1.txt
+red
+yellow
+orange
+green
+brown
+$
+
+Paste
+$ cat hello.txt
+hello friends,
+Hope to see you again!
+$ cat bye.txt
+How are you?
+bye
+$ paste hello.txt bye.txt
+hello friends,	How are you?
+Hope to see you again!	bye
+$ paste -s hello.txt bye.txt
+hello friends,	Hope to see you again!
+How are you?	bye
+$
+$ cat fruits_f1.txt
+Apple
+Banana
+Orange
+Plum
+Guava
+$ paste fruits_f1.txt
+Apple
+Banana
+Orange
+Plum
+Guava
+$ paste -s fruits_f1.txt
+Apple	Banana	Orange	Plum	Guava
+$ paste -d, -s fruits_f1.txt
+Apple,Banana,Orange,Plum,Guava
+$ paste - - < fruits_f1.txt
+Apple	Banana
+Orange	Plum
+Guava
+$ paste - - - < fruits_f1.txt
+Apple	Banana	Orange
+Plum	Guava
+$
+$ cat fruits_f1.txt
+Apple
+Banana
+Orange
+Plum
+Guava
+$ cat vegi_f2.txt
+Cabbage
+Carrot
+Tomato
+Peas
+Capsicum
+$ paste fruits_f1.txt vegi_f2.txt
+Apple	Cabbage
+Banana	Carrot
+Orange	Tomato
+Plum	Peas
+Guava	Capsicum
+$ paste -d, fruits_f1.txt vegi_f2.txt
+Apple,Cabbage
+Banana,Carrot
+Orange,Tomato
+Plum,Peas
+Guava,Capsicum
+$
+$ paste -d'\n' fruits_f1.txt vegi_f2.txt
+Apple
+Cabbage
+Banana
+Carrot
+Orange
+Tomato
+Plum
+Peas
+Guava
+Capsicum
+$
+
+Translate
+$ tr a-z A-Z
+hello
+HELLO
+^C
+$
+
+Unique
+$ cat uniq_eg.txt
+linux
+mac
+unix
+unix
+linux
+os
+mac
+$ uniq uniq_eg.txt
+linux
+mac
+unix
+linux
+os
+mac
+$
+
+Copy
+$ cp -r <directory_path>
+$ cp file1 file2
+$ cp file1 /tmp
+$ cp * /tmp
+
+Process
+$ ps aux | less
+$ ps aux | grep "process-name"
+$ pgrep -u <user-name>
+$ pgrep -u kan1shka9
+$ pstree
+
+List available signals
+$ kill -l
+HUP INT QUIT ILL TRAP ABRT EMT FPE KILL BUS SEGV SYS PIPE ALRM TERM URG STOP TSTP CONT CHLD TTIN TTOU IO XCPU XFSZ VTALRM PROF WINCH INFO USR1 USR2
+$
+Kill a process
+$ kill -9 <PID>
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.26 -zsh
+$ ./loop.sh &
+[1] 2031
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.29 -zsh
+ 2031 ttys001    0:02.19 /bin/bash ./loop.sh
+$ kill -9 2031
+[1]  + 2031 killed     ./loop.sh
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.30 -zsh
+$ killall <ProcessName>
+$ ./loop.sh &
+[1] 2154
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.39 -zsh
+ 2154 ttys001    0:02.39 /bin/bash ./loop.sh
+$ kill -KILL 2154
+[1]  + 2154 killed     ./loop.sh
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.40 -zsh
+$ ./loop.sh &
+[1] 2176
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.42 -zsh
+ 2176 ttys001    0:02.84 /bin/bash ./loop.sh
+$ kill -TERM 2176
+[1]  + 2176 terminated  ./loop.sh
+$ ps
+  PID TTY           TIME CMD
+ 1839 ttys001    0:00.03 /Applications/iTerm.app/Contents/MacOS/iTerm2 --server login -fp kan1shka9
+ 1841 ttys001    0:00.43 -zsh
+$
+$ kill -l SIGTSTP
+18
+$
+List of signals
+/usr/include/linux/signal.h
+
+trap
+It defines and activates handlers to be run when the shell receives signals or other special conditions
+$ trap command signal
+$ touch abc.txt
+$ file=abc.txt
+$ trap
+$ trap "rm $file" 0 1 2 3 15
+$ trap
+trap -- 'rm abc.txt' EXIT
+trap -- 'rm abc.txt' HUP
+trap -- 'rm abc.txt' INT
+trap -- 'rm abc.txt' QUIT
+trap -- 'rm abc.txt' TERM
+$ ./loop.sh
+^C
+$ ls abc.txt
+ls: abc.txt: No such file or directory
+$
+$ trap
+trap -- 'rm abc.txt' EXIT
+trap -- 'rm abc.txt' HUP
+trap -- 'rm abc.txt' INT
+trap -- 'rm abc.txt' QUIT
+trap -- 'rm abc.txt' TERM
+$ trap - EXIT
+$ trap
+trap -- 'rm abc.txt' HUP
+trap -- 'rm abc.txt' INT
+trap -- 'rm abc.txt' QUIT
+trap -- 'rm abc.txt' TERM
+$ trap - 1
+$ trap
+trap -- 'rm abc.txt' INT
+trap -- 'rm abc.txt' QUIT
+trap -- 'rm abc.txt' TERM
+$ trap - INT QUIT TERM
+$ trap
+$
